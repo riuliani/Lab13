@@ -12,16 +12,16 @@ namespace Roshambo
             return player;
         }
 
-        public IPlayer SelectPlayer(string opponentName)
+        public IPlayer SelectPlayer(string userInput)
         {
-            switch (opponentName)
+            switch (userInput)
             {
                 case "The Rock":
-                    return new RockPlayer(opponentName);
+                    return new RockPlayer(userInput);
                 case "Random":
-                    return new RandomPlayer(opponentName);
+                    return new RandomPlayer(userInput);
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(opponentName));
+                    throw new ArgumentOutOfRangeException(nameof(userInput));
             }
         }
     }

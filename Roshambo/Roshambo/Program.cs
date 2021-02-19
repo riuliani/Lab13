@@ -10,14 +10,27 @@ namespace Roshambo
             Console.WriteLine("Welcome to Rock Paper Scissors!");
 
             var name = GetPlayerName();
-
-            var opponentSelected = SelectOpponent();
-            var opponent = CreateOppnent(opponentSelected);
-
-            var userInput = SelectRockPaperOrScissors();
-
             var humanPlayer = Create(name);
-            var selection = humanPlayer.GenerateRPS();
+
+            string input;
+            do
+            {
+                var opponentSelected = SelectOpponent();
+                var opponent = CreateOppnent(opponentSelected);
+
+                var userInput = SelectRockPaperOrScissors();
+
+                bool isValid;
+                do
+                {
+                    Console.WriteLine("Would you like to continue? (y/n)");
+                    input = Console.ReadLine();
+                    isValid = input == "y" && input == "n";
+
+                } while (isValid);
+
+            } while (input == "y" && input == "n");
+
 
         }
 
@@ -44,10 +57,10 @@ namespace Roshambo
                     Console.WriteLine("Rock, paper, or scissors? (R/P/S)");
                     userInput = Console.ReadLine();
 
-                    isInvalid = userInput != "t" && userInput != "r";
+                    isInvalid = userInput != "R" && userInput != "P" && userInput != "S";
                     if (isInvalid)
                     {
-                        Console.WriteLine("OOPS! You need to enter 't' or 'r'!");
+                        Console.WriteLine("OOPS! You need to enter 'R', 'P' or 'S'!");
                     }
 
                 } while (isInvalid);
@@ -110,9 +123,9 @@ namespace Roshambo
             return player;
         }
 
-        private static RPS CreateOppnent(string opponentSelected)
+        private static IPlayer CreateOppnent(string userInput)
         {
-            var opponent = new RPSApp().SelectPlayer(opponentSelected).GenerateRPS();
+            var opponent = new RPSApp().SelectPlayer(userInput);
             return opponent;
 
         }

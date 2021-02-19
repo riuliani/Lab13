@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Roshambo
 {
-    class RockPlayer
+    class RockPlayer : IPlayer
     {
         public RockPlayer(string name)
         {

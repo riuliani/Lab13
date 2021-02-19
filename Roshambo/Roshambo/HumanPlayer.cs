@@ -14,7 +14,7 @@ namespace Roshambo
 
         public RPS GenerateRPS()
         {
-            throw new Exception();
+            return;
         }
     }
 }
