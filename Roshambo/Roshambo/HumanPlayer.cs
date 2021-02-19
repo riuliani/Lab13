@@ -6,15 +6,28 @@ namespace Roshambo
 {
     class HumanPlayer : IPlayer
     {
-        public HumanPlayer(string name)
+        public HumanPlayer(string name, string selection)
         {
             Name = name;
+            Selection = selection;
         }
         public string Name { get; set; }
+        public string Selection { get; }
 
         public RPS GenerateRPS()
         {
-            return;
+            if(Selection == "r")
+            {
+                return RPS.rock;
+            }
+            else if(Selection == "p")
+            {
+                return RPS.paper;
+            }
+            else
+            {
+                return RPS.scissors;
+            }
         }
     }
 }

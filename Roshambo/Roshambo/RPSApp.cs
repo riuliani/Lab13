@@ -6,9 +6,9 @@ namespace Roshambo
 {
     class RPSApp
     {
-        public HumanPlayer Create(string name)
+        public HumanPlayer Create(string name, string userInput)
         {
-            var player = new HumanPlayer(name);
+            var player = new HumanPlayer(name, userInput);
             return player;
         }
 

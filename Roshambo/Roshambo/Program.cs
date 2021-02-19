@@ -7,12 +7,17 @@ namespace Roshambo
     {
         static void Main(string[] args)
         {
+            int humanPlayerWinCounter = 0;
+            int humanPlayerLossCounter = 0;
+            int rockPlayerWinCounter = 0;
+            int rockPlayerLossCounter = 0;
+            int randomPlayerWinCounter = 0;
+            int randomPlayerLossCounter = 0;
             Console.WriteLine("Welcome to Rock Paper Scissors!");
 
             var name = GetPlayerName();
-            var humanPlayer = Create(name);
 
-            string input;
+            string continueProgram;
             do
             {
                 var opponentSelected = SelectOpponent();
@@ -20,18 +25,88 @@ namespace Roshambo
 
                 var userInput = SelectRockPaperOrScissors();
 
+                HumanPlayer humanPlayer = Create(name, userInput);
+                Console.WriteLine();
+
+                DisplaySelection(humanPlayer, opponent);
+                DisplayWinner(humanPlayer, opponent, humanPlayerWinCounter, humanPlayerLossCounter, rockPlayerWinCounter, rockPlayerLossCounter,
+                              randomPlayerWinCounter, randomPlayerLossCounter);
+
+                Results(humanPlayer, opponent, humanPlayerWinCounter, humanPlayerLossCounter, rockPlayerWinCounter, rockPlayerLossCounter,
+                              randomPlayerWinCounter, randomPlayerLossCounter);
+
                 bool isValid;
                 do
                 {
                     Console.WriteLine("Would you like to continue? (y/n)");
-                    input = Console.ReadLine();
-                    isValid = input == "y" && input == "n";
+                    continueProgram = Console.ReadLine();
+                    isValid = continueProgram == "y" && continueProgram == "n";
 
                 } while (isValid);
 
-            } while (input == "y" && input == "n");
+            } while (continueProgram == "y");
 
+            EndProgram();
 
+        }
+        private static void DisplayWinner(HumanPlayer humanPlayer, IPlayer opponent, int humanPlayerWinCounter, int humanPlayerLossCounter,
+                                          int rockPlayerWinCounter, int rockPlayerLossCounter, int randomPlayerWinCounter, int randomPlayerLossCounter)
+        {
+            if (humanPlayer.GenerateRPS() == opponent.GenerateRPS())
+            {
+                Console.WriteLine("It is a draw!");
+            }
+            else if (humanPlayer.GenerateRPS() == RPS.paper && opponent.GenerateRPS() == RPS.rock ||
+                    humanPlayer.GenerateRPS() == RPS.rock && opponent.GenerateRPS() == RPS.scissors ||
+                    humanPlayer.GenerateRPS() == RPS.scissors && opponent.GenerateRPS() == RPS.paper)
+            {
+                Console.WriteLine($"{humanPlayer.Name} wins!");
+                humanPlayerWinCounter++;
+                if(opponent.Name == "The Rock")
+                {
+                    rockPlayerLossCounter++;
+                }
+                else
+                {
+                    randomPlayerLossCounter++;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{opponent.Name} wins!");
+
+                if (opponent.Name == "The Rock")
+                {
+                    rockPlayerWinCounter++;
+                    humanPlayerLossCounter++;
+                }
+                else
+                {
+                    randomPlayerWinCounter++;
+                    humanPlayerLossCounter++;
+                }
+            }
+        }
+
+        private static void DisplaySelection(HumanPlayer humanPlayer, IPlayer opponent)
+        {
+            Console.WriteLine($"{humanPlayer.Name} selected: {humanPlayer.GenerateRPS()}");
+            Console.WriteLine($"{opponent.Name} selected: {opponent.GenerateRPS()}");
+            Console.WriteLine();
+        }
+
+        private static void EndProgram()
+        {
+            Console.WriteLine("Thank you for playing Roshambo!");
+
+        }
+
+        private static void Results(HumanPlayer humanPlayer, IPlayer opponent, int humanPlayerWinCounter, int humanPlayerLossCounter,
+                                    int rockPlayerWinCounter, int rockPlayerLossCounter, int randomPlayerWinCounter, int randomPlayerLossCounter)
+        {
+            Console.WriteLine($"{humanPlayer.Name}: Wins {humanPlayerWinCounter} : Losses {humanPlayerLossCounter}" + "\r\n" +                               
+                              $"{opponent.Name}: Wins {rockPlayerWinCounter} Losses {rockPlayerLossCounter}" + "\r\n" +
+                              $"{opponent.Name}: Wins {randomPlayerWinCounter}: Losses {randomPlayerLossCounter}");
         }
 
         private static string GetPlayerName()
@@ -54,13 +129,13 @@ namespace Roshambo
             {
                 do
                 {
-                    Console.WriteLine("Rock, paper, or scissors? (R/P/S)");
+                    Console.WriteLine("Rock, paper, or scissors? (r/p/s)");
                     userInput = Console.ReadLine();
 
-                    isInvalid = userInput != "R" && userInput != "P" && userInput != "S";
+                    isInvalid = userInput != "r" && userInput != "p" && userInput != "s";
                     if (isInvalid)
                     {
-                        Console.WriteLine("OOPS! You need to enter 'R', 'P' or 'S'!");
+                        Console.WriteLine("OOPS! You need to enter 'r', 'p' or 's'!");
                     }
 
                 } while (isInvalid);
@@ -103,11 +178,7 @@ namespace Roshambo
         private static bool IsUserInputValid(string userInput)
         {
             Regex regex = new Regex("^[A-Za-z]*$");
-            if (int.TryParse(userInput, out int number))
-            {
-                return false;
-            }
-            else if (!regex.IsMatch(userInput))
+            if (!regex.IsMatch(userInput))
             {
                 return false;
             }
@@ -117,9 +188,9 @@ namespace Roshambo
             }
         }
 
-        private static HumanPlayer Create(string name)
+        private static HumanPlayer Create(string name, string userInput)
         {
-            var player = new HumanPlayer(name);
+            var player = new HumanPlayer(name, userInput);
             return player;
         }
 
