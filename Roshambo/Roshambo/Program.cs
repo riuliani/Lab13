@@ -7,12 +7,8 @@ namespace Roshambo
     {
         static void Main(string[] args)
         {
-            int humanPlayerWinCounter = 0;
-            int humanPlayerLossCounter = 0;
-            int rockPlayerWinCounter = 0;
-            int rockPlayerLossCounter = 0;
-            int randomPlayerWinCounter = 0;
-            int randomPlayerLossCounter = 0;
+            int humanPlayerWinCounter = 0, humanPlayerLossCounter = 0, rockPlayerWinCounter = 0, rockPlayerLossCounter = 0,
+                randomPlayerWinCounter = 0, randomPlayerLossCounter = 0;
             Console.WriteLine("Welcome to Rock Paper Scissors!");
 
             var name = GetPlayerName();
@@ -29,11 +25,47 @@ namespace Roshambo
                 Console.WriteLine();
 
                 DisplaySelection(humanPlayer, opponent);
-                DisplayWinner(humanPlayer, opponent, humanPlayerWinCounter, humanPlayerLossCounter, rockPlayerWinCounter, rockPlayerLossCounter,
-                              randomPlayerWinCounter, randomPlayerLossCounter);
 
-                Results(humanPlayer, opponent, humanPlayerWinCounter, humanPlayerLossCounter, rockPlayerWinCounter, rockPlayerLossCounter,
-                              randomPlayerWinCounter, randomPlayerLossCounter);
+                if (humanPlayer.GenerateRPS() == opponent.GenerateRPS())
+                {
+                    Console.WriteLine("It is a draw!");
+                }
+                else if(humanPlayer.GenerateRPS() == RPS.paper && opponent.GenerateRPS() == RPS.rock ||
+                        humanPlayer.GenerateRPS() == RPS.rock && opponent.GenerateRPS() == RPS.scissors ||
+                        humanPlayer.GenerateRPS() == RPS.scissors && opponent.GenerateRPS() == RPS.paper)
+                {
+                    if (opponent.Name == "The Rock")
+                    {
+                        rockPlayerLossCounter++;
+                    }
+                    else
+                    {
+                        randomPlayerLossCounter++;
+                    }
+                    Console.WriteLine($"{humanPlayer.Name} wins!");
+                    humanPlayerWinCounter++;
+                }
+                else if(opponent.GenerateRPS() == RPS.paper && humanPlayer.GenerateRPS() == RPS.rock ||
+                        opponent.GenerateRPS() == RPS.rock && humanPlayer.GenerateRPS() == RPS.scissors ||
+                        opponent.GenerateRPS() == RPS.scissors && humanPlayer.GenerateRPS() == RPS.paper)
+                {
+                    Console.WriteLine($"{opponent.Name} wins!");
+
+                    if (opponent.Name == "The Rock")
+                    {
+                        rockPlayerWinCounter++;
+                        humanPlayerLossCounter++;
+                    }
+                    else
+                    {
+                        randomPlayerWinCounter++;
+                        humanPlayerLossCounter++;
+                    }
+                }                
+
+                Console.WriteLine($"{humanPlayer.Name}: Wins {humanPlayerWinCounter} : Losses {humanPlayerLossCounter}" + "\r\n" +
+                              $"{opponent.Name}: Wins {rockPlayerWinCounter} Losses {rockPlayerLossCounter}" + "\r\n" +
+                              $"{opponent.Name}: Wins {randomPlayerWinCounter}: Losses {randomPlayerLossCounter}");
 
                 bool isValid;
                 do
@@ -59,9 +91,7 @@ namespace Roshambo
             else if (humanPlayer.GenerateRPS() == RPS.paper && opponent.GenerateRPS() == RPS.rock ||
                     humanPlayer.GenerateRPS() == RPS.rock && opponent.GenerateRPS() == RPS.scissors ||
                     humanPlayer.GenerateRPS() == RPS.scissors && opponent.GenerateRPS() == RPS.paper)
-            {
-                Console.WriteLine($"{humanPlayer.Name} wins!");
-                humanPlayerWinCounter++;
+            {                           
                 if(opponent.Name == "The Rock")
                 {
                     rockPlayerLossCounter++;
@@ -70,6 +100,8 @@ namespace Roshambo
                 {
                     randomPlayerLossCounter++;
                 }
+                Console.WriteLine($"{humanPlayer.Name} wins!");
+                humanPlayerWinCounter += humanPlayerWinCounter;
             }
             else
             {
