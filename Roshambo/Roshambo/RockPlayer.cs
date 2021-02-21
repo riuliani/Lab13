@@ -11,10 +11,17 @@ namespace Roshambo
             Name = name;
         }
         public string Name { get; set; }
+        public RPS Result { get; set; }
+        public int Wins { get; set; }
+        public int Losses { get; set; }
+        public int Ties { get; set; }
+
 
         public RPS GenerateRPS()
         {
             return RPS.rock;
         }
+
+        
     }
 }

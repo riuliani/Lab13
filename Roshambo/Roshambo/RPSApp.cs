@@ -9,20 +9,28 @@ namespace Roshambo
         public HumanPlayer Create(string name, string userInput)
         {
             var player = new HumanPlayer(name, userInput);
+            var result = player.GenerateRPS();
+            player.Result = result;
             return player;
         }
 
-        public IPlayer SelectPlayer(string userInput)
+        public IPlayer SelectOpponent(string userInput)
         {
             switch (userInput)
             {
                 case "The Rock":
-                    return new RockPlayer(userInput);
+                    RockPlayer rockPlayer = new RockPlayer(userInput);
+                    var result = rockPlayer.GenerateRPS();
+                    rockPlayer.Result = result;
+                    return rockPlayer;
                 case "Random":
-                    return new RandomPlayer(userInput);
+                    RandomPlayer random = new RandomPlayer(userInput);
+                    var randomResult = random.GenerateRPS();
+                    random.Result = randomResult;
+                    return random;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(userInput));
             }
-        }
+        }        
     }
 }
