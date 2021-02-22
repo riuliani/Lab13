@@ -44,6 +44,7 @@ namespace Roshambo
         private static void EndProgram()
         {
             Console.WriteLine("Thank you for playing Roshambo" + "\r\n" + "Goodbye!");
+
         }
 
         private static void DisplayWinsAndLosses(HumanPlayer human, IPlayer opponent)
@@ -55,7 +56,6 @@ namespace Roshambo
         {
             Console.WriteLine($"{newHuman.Name} selected: {newHuman.Result}");
             Console.WriteLine($"{newOpponent.Name} selected: {newOpponent.Result}");
-            Console.WriteLine();
         }
 
         private static string GetUserName()
