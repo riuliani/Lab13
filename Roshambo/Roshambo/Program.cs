@@ -27,7 +27,6 @@ namespace Roshambo
 
                 DisplayWinsAndLosses(human, opponent);
 
-
                 bool isValid;
                 do
                 {
@@ -44,12 +43,10 @@ namespace Roshambo
         private static void EndProgram()
         {
             Console.WriteLine("Thank you for playing Roshambo" + "\r\n" + "Goodbye!");
-
         }
 
         private static void DisplayWinsAndLosses(HumanPlayer human, IPlayer opponent)
         {
-
             Console.WriteLine("\n");
             Console.WriteLine($"{human.Name}: Wins: {human.Wins} Losses: {human.Losses} Ties: {human.Ties}");
             Console.WriteLine($"{opponent.Name}: Wins: {opponent.Wins} Losses: {opponent.Losses} Ties: {opponent.Ties}");
