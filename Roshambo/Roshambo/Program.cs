@@ -49,8 +49,26 @@ namespace Roshambo
 
         private static void DisplayWinsAndLosses(HumanPlayer human, IPlayer opponent)
         {
-            Console.WriteLine($"{human.Name}: Wins{human.Wins}: Losses: {human.Losses}: Ties {human.Ties}" + "\r\n" +
-                              $"{opponent.Name} Wins{opponent.Wins}: Losses: {opponent.Losses}: Ties {opponent.Ties}");
+            int rockPlayerWins = 0, rockPlayerLosses = 0, rockPlayerTies = 0, randomPlayerWins = 0, randomPlayerLosses = 0,
+                randomPlayerTies = 0;            
+
+            if(opponent.Name == "The Rock")
+            {
+                rockPlayerWins +=  opponent.Wins;
+                rockPlayerLosses += opponent.Losses;
+                rockPlayerTies += opponent.Ties;
+            }
+            else
+            {
+                randomPlayerWins += opponent.Wins;
+                randomPlayerLosses += opponent.Losses;
+                randomPlayerTies += opponent.Ties;                
+            }
+
+            Console.WriteLine("\n");
+            Console.WriteLine($"{human.Name}: Wins: {human.Wins} Losses: {human.Losses} Ties: {human.Ties}");
+            Console.WriteLine($"The Rock: Wins: {rockPlayerWins} Losses: {rockPlayerLosses}   Ties: {rockPlayerTies}");
+            Console.WriteLine($"Random: Wins: {randomPlayerWins} Losses: {randomPlayerLosses} Ties: {randomPlayerTies}");
         }
         private static void DisplaySelection(HumanPlayer newHuman, IPlayer newOpponent)
         {
