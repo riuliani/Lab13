@@ -23,8 +23,6 @@ namespace Roshambo
             RPS randomEnum = (RPS)random.Next(0, 3);
 
             return randomEnum;
-        }
-
-        
+        }        
     }
 }

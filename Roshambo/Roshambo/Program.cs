@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace Roshambo
 {
     class Program
-    {        
+    {
         static void Main(string[] args)
         {
 
@@ -18,13 +18,13 @@ namespace Roshambo
                 var opponentSelected = SelectOpponent();
                 var selection = SelectRockPaperOrScissors();
 
-                var human = CreateHuman(name, selection);
-                var opponent = CreateOpponent(opponentSelected);
+                HumanPlayer human = CreateHuman(name, selection);
+                IPlayer opponent = CreateOpponent(opponentSelected);
 
                 DisplaySelection(human, opponent);
-              
+
                 Winner(human, opponent);
-                
+
                 DisplayWinsAndLosses(human, opponent);
 
 
@@ -38,17 +38,18 @@ namespace Roshambo
                 } while (isValid);
 
             } while (continueProgram == "y");
+
+            EndProgram();
         }
-        public static List<RockPlayer> rock = new List<RockPlayer>();
         private static void EndProgram()
         {
-            Console.WriteLine("");
+            Console.WriteLine("Thank you for playing Roshambo" + "\r\n" + "Goodbye!");
         }
 
         private static void DisplayWinsAndLosses(HumanPlayer human, IPlayer opponent)
         {
-            Console.WriteLine($"{human.Name}: Wins{human.Wins}: Losses: {human.Losses}: Ties {human.Ties}");
-            Console.WriteLine($"{opponent.Name}: Wins{opponent.Wins}: Losses: {opponent.Losses}: Ties {opponent.Ties}");             
+            Console.WriteLine($"{human.Name}: Wins{human.Wins}: Losses: {human.Losses}: Ties {human.Ties}" + "\r\n" +
+                              $"{opponent.Name} Wins{opponent.Wins}: Losses: {opponent.Losses}: Ties {opponent.Ties}");
         }
         private static void DisplaySelection(HumanPlayer newHuman, IPlayer newOpponent)
         {
@@ -63,11 +64,11 @@ namespace Roshambo
             do
             {
                 Console.WriteLine("Please enter your name");
-                 userInput = Console.ReadLine();
+                userInput = Console.ReadLine();
 
             } while (!IsUserInputValid(userInput));
 
-            return userInput;            
+            return userInput;
         }
 
         private static string SelectOpponent()
@@ -76,21 +77,17 @@ namespace Roshambo
             bool isInvalid;
             do
             {
-                do
+                Console.WriteLine("Would you like to play against The Rock, or Random? (t/r)");
+                userInput = Console.ReadLine();
+
+                isInvalid = userInput != "t" && userInput != "r";
+                if (isInvalid)
                 {
-                    Console.WriteLine("Would you like to play against The Rock, or Random? (t/r)");
-                    userInput = Console.ReadLine();
+                    Console.WriteLine("OOPS! You need to enter 't' or 'r'!");
+                }
+            } while (isInvalid);
 
-                    isInvalid = userInput != "t" && userInput != "r";
-                    if (isInvalid)
-                    {
-                        Console.WriteLine("OOPS! You need to enter 't' or 'r'!");
-                    }
-                } while (isInvalid);
-
-            } while (!IsUserInputValid(userInput));
-
-            if(userInput == "t")
+            if (userInput == "t")
             {
                 return "The Rock";
             }
@@ -117,22 +114,19 @@ namespace Roshambo
         {
             string userInput;
             bool isInvalid;
+
             do
             {
-                do
+                Console.WriteLine("Rock, paper, or scissors? (r/p/s)");
+                userInput = Console.ReadLine();
+
+                isInvalid = userInput != "r" && userInput != "p" && userInput != "s";
+                if (isInvalid)
                 {
-                    Console.WriteLine("Rock, paper, or scissors? (r/p/s)");
-                    userInput = Console.ReadLine();
+                    Console.WriteLine("OOPS! You need to enter 'r', 'p' or 's'!");
+                }
 
-                    isInvalid = userInput != "r" && userInput != "p" && userInput != "s";
-                    if (isInvalid)
-                    {
-                        Console.WriteLine("OOPS! You need to enter 'r', 'p' or 's'!");
-                    }
-
-                } while (isInvalid);
-
-            } while (!IsUserInputValid(userInput));
+            } while (isInvalid);
 
             return userInput;
         }
@@ -152,13 +146,13 @@ namespace Roshambo
 
         private static void Winner(HumanPlayer human, IPlayer opponent)
         {
-            if(human.Result == RPS.rock && opponent.Result == RPS.paper)
+            if (human.Result == RPS.rock && opponent.Result == RPS.paper)
             {
                 Console.WriteLine($"{opponent.Name} Wins!");
                 human.Losses++;
                 opponent.Wins++;
             }
-            else if(human.Result == RPS.rock && opponent.Result == RPS.scissors)
+            else if (human.Result == RPS.rock && opponent.Result == RPS.scissors)
             {
                 Console.WriteLine($"{human.Name} Wins!");
                 human.Wins++;
@@ -176,7 +170,7 @@ namespace Roshambo
                 human.Losses++;
                 opponent.Wins++;
             }
-            else if(human.Result == RPS.paper && opponent.Result == RPS.scissors)
+            else if (human.Result == RPS.paper && opponent.Result == RPS.scissors)
             {
                 Console.WriteLine($"{opponent.Name} Wins!");
                 human.Losses++;
